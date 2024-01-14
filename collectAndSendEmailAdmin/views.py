@@ -34,7 +34,9 @@ def graduate_add(request):
     # 提取数据
     g_id_no = data.get('g_id_no')
     if not g_id_no:
-        return JsonResponse({'error': '身份证号是必须的'}, status=400)
+        ans = JsonResponse({'error': '身份证号是必须的'}, status=400)
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
 
     # 处理图像数据
     relative_pic_path  = data.get('g_cert_pic')
@@ -44,7 +46,9 @@ def graduate_add(request):
     logger.info("graduate_add() >> relative_pic_path: %s", relative_pic_path)
     logger.info("graduate_add() >> full_path: %s", full_path)
     if not os.path.exists(full_path):
-        return JsonResponse({'error': '文件不存在'}, status=400)
+        ans = JsonResponse({'error': '文件不存在'}, status=400)
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
 
     # 查询或创建记录
     graduate, created = Graduate.objects.get_or_create(
@@ -66,7 +70,9 @@ def graduate_add(request):
             django_file = File(file)
             logger.info("graduate_add() >> create django_file: %s", django_file)
             graduate.g_cert_pic.save(os.path.basename(full_path), django_file)
-        return JsonResponse({'message': '毕业生信息已创建', 'graduate_id': graduate.id}, status=200)
+        ans = JsonResponse({'message': '毕业生信息已创建', 'graduate_id': graduate.id}, status=200)
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
     else:
         # 更新记录
         graduate.g_name = data.get('g_name', graduate.g_name).strip()
@@ -85,7 +91,9 @@ def graduate_add(request):
             graduate.g_cert_pic.save(os.path.basename(full_path), django_file)
 
 
-        return JsonResponse({'message': '毕业生信息已更新', 'graduate_id': graduate.id}, status=200)
+        ans = JsonResponse({'message': '毕业生信息已更新', 'graduate_id': graduate.id}, status=200)
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
 
     return JsonResponse({'error': '未知错误'}, status=500)
 
@@ -314,7 +322,14 @@ def file_upload_view(request):
         file_url = default_storage.url(file_name)
 
         # 返回文件URL
-        return JsonResponse({'message': 'success', 'file_url': file_url[1:]})
+        ans = JsonResponse({'message': 'success', 'file_url': file_url[1:]})
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
+    else:
+        ans = JsonResponse({'message': 'ok'})
+        ans['Access-Control-Allow-Origin'] = '*'
+        return ans
+        
     
     return JsonResponse({'error': 'Only POST requests are supported'}, status=400)
 

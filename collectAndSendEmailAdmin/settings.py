@@ -24,7 +24,7 @@ WORD_TEMPLATE_PATH = 'docx/template_1.docx'
 SECRET_KEY = "django-insecure-5!h1+)+-xkkwj0nyra=3^ea70fsf68#1!^l!1y&hji)@!zbbmi"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -78,14 +78,22 @@ WSGI_APPLICATION = "collectAndSendEmailAdmin.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
         # 'NAME': 'graduate',
         # 'USER': 'test_root',
         # 'PASSWORD': 'YSYS3746root',
         # 'HOST': '127.0.0.1',
         # 'PORT': 3306
+    # }
+    "default" : {
+        "ENGINE" : "django.db.backends.mysql",
+        "NAME" : "wbycollect",
+        "USER" : "root",
+        "PASSWORD" : "cyonline_2023_ljh",
+        "HOST" : "http://theback-mysql",
+        "PORT" : "3306"
     }
 }
 
@@ -156,8 +164,8 @@ USE_L10N = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
-MEDIA_URL = 'media/'
+STATIC_URL = "wbycollect-static/"
+MEDIA_URL = 'wbycollect-media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
